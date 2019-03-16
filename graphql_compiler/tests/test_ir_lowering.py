@@ -249,10 +249,6 @@ class MatchIrLoweringTests(unittest.TestCase):
         ]
         ir_sanity_checks.sanity_check_ir_blocks_from_frontend(ir_blocks, query_metadata_table)
 
-        location_types = construct_location_types({
-            base_location: 'Animal',
-            child_location: 'Animal',
-        })
         match_query = convert_to_match_query(ir_blocks)
 
         # The expected final query consists of two traversals:
@@ -272,7 +268,7 @@ class MatchIrLoweringTests(unittest.TestCase):
         ]
         expected_final_query = convert_to_match_query(expected_final_blocks)
 
-        final_query = ir_lowering_match.lower_backtrack_blocks(match_query, location_types)
+        final_query = ir_lowering_match.lower_backtrack_blocks(match_query, query_metadata_table)
         check_test_data(self, expected_final_query, final_query)
 
     def test_backtrack_block_lowering_revisiting_root(self):
@@ -309,11 +305,6 @@ class MatchIrLoweringTests(unittest.TestCase):
         ]
         ir_sanity_checks.sanity_check_ir_blocks_from_frontend(ir_blocks, query_metadata_table)
 
-        location_types = construct_location_types({
-            base_location: 'Animal',
-            child_location_1: 'Animal',
-            child_location_2: 'Animal',
-        })
         match_query = convert_to_match_query(ir_blocks)
 
         # The expected final query consists of three traversals:
@@ -338,14 +329,13 @@ class MatchIrLoweringTests(unittest.TestCase):
         ]
         expected_final_query = convert_to_match_query(expected_final_blocks)
 
-        final_query = ir_lowering_match.lower_backtrack_blocks(match_query, location_types)
+        final_query = ir_lowering_match.lower_backtrack_blocks(match_query, query_metadata_table)
         check_test_data(self, expected_final_query, final_query)
 
     def test_optional_backtrack_block_lowering(self):
         schema = get_schema()
 
         base_location = Location(('Animal',))
-        base_location_revisited = base_location.revisit()
         base_name_location = base_location.navigate_to_field('name')
         child_location = base_location.navigate_to_subpath('out_Animal_ParentOf')
 
@@ -356,8 +346,7 @@ class MatchIrLoweringTests(unittest.TestCase):
         query_metadata_table.register_location(
             child_location,
             LocationInfo(base_location, animal_graphql_type, None, 1, 0, False))
-        query_metadata_table.register_location(
-            base_location_revisited, base_location_info)
+        base_location_revisited = query_metadata_table.revisit_location(base_location)
 
         ir_blocks = [
             QueryRoot({'Animal'}),
@@ -372,11 +361,6 @@ class MatchIrLoweringTests(unittest.TestCase):
         ]
         ir_sanity_checks.sanity_check_ir_blocks_from_frontend(ir_blocks, query_metadata_table)
 
-        location_types = construct_location_types({
-            base_location: 'Animal',
-            child_location: 'Animal',
-            base_location_revisited: 'Animal',
-        })
         match_query = convert_to_match_query(ir_blocks)
 
         # The expected final query consists of two traversals:
@@ -397,7 +381,7 @@ class MatchIrLoweringTests(unittest.TestCase):
         ]
         expected_final_query = convert_to_match_query(expected_final_blocks)
 
-        final_query = ir_lowering_match.lower_backtrack_blocks(match_query, location_types)
+        final_query = ir_lowering_match.lower_backtrack_blocks(match_query, query_metadata_table)
         check_test_data(self, expected_final_query, final_query)
 
     def test_backtrack_lowering_with_optional_traverse_after_mandatory_traverse(self):
@@ -407,8 +391,6 @@ class MatchIrLoweringTests(unittest.TestCase):
         schema = get_schema()
 
         base_location = Location(('Animal',))
-        revisited_base_location = base_location.revisit()
-        twice_revisited_base_location = revisited_base_location.revisit()
         species_location = base_location.navigate_to_subpath('out_Animal_OfSpecies')
         child_location = base_location.navigate_to_subpath('out_Animal_ParentOf')
 
@@ -417,10 +399,9 @@ class MatchIrLoweringTests(unittest.TestCase):
         base_location_info = LocationInfo(None, animal_graphql_type, None, 0, 0, False)
         query_metadata_table = QueryMetadataTable(base_location, base_location_info)
 
-        query_metadata_table.register_location(
-            revisited_base_location, base_location_info)
-        query_metadata_table.register_location(
-            twice_revisited_base_location, base_location_info)
+        revisited_base_location = query_metadata_table.revisit_location(base_location)
+        twice_revisited_base_location = query_metadata_table.revisit_location(
+            revisited_base_location)
         query_metadata_table.register_location(
             species_location,
             LocationInfo(base_location, species_graphql_type, None, 0, 0, False))
@@ -446,13 +427,6 @@ class MatchIrLoweringTests(unittest.TestCase):
         ]
         ir_sanity_checks.sanity_check_ir_blocks_from_frontend(ir_blocks, query_metadata_table)
 
-        location_types = construct_location_types({
-            base_location: 'Animal',
-            child_location: 'Animal',
-            revisited_base_location: 'Animal',
-            twice_revisited_base_location: 'Animal',
-            species_location: 'Species',
-        })
         match_query = convert_to_match_query(ir_blocks)
 
         # The expected final query consists of three traversals:
@@ -480,7 +454,7 @@ class MatchIrLoweringTests(unittest.TestCase):
         ]
         expected_final_query = convert_to_match_query(expected_final_blocks)
 
-        final_query = ir_lowering_match.lower_backtrack_blocks(match_query, location_types)
+        final_query = ir_lowering_match.lower_backtrack_blocks(match_query, query_metadata_table)
         check_test_data(self, expected_final_query, final_query)
 
     def test_unnecessary_traversal_elimination(self):
@@ -500,9 +474,6 @@ class MatchIrLoweringTests(unittest.TestCase):
         schema = get_schema()
 
         base_location = Location(('Animal',))
-        revisited_base_location = base_location.revisit()
-        twice_revisited_base_location = revisited_base_location.revisit()
-        thrice_revisited_base_location = twice_revisited_base_location.revisit()
         child_location = base_location.navigate_to_subpath('out_Animal_ParentOf')
         species_location = base_location.navigate_to_subpath('out_Animal_OfSpecies')
         event_location = base_location.navigate_to_subpath('out_Animal_FedAt')
@@ -513,12 +484,11 @@ class MatchIrLoweringTests(unittest.TestCase):
         base_location_info = LocationInfo(None, animal_graphql_type, None, 0, 0, False)
         query_metadata_table = QueryMetadataTable(base_location, base_location_info)
 
-        query_metadata_table.register_location(
-            revisited_base_location, base_location_info)
-        query_metadata_table.register_location(
-            twice_revisited_base_location, base_location_info)
-        query_metadata_table.register_location(
-            thrice_revisited_base_location, base_location_info)
+        revisited_base_location = query_metadata_table.revisit_location(base_location)
+        twice_revisited_base_location = query_metadata_table.revisit_location(
+            revisited_base_location)
+        thrice_revisited_base_location = query_metadata_table.revisit_location(
+            twice_revisited_base_location)
         query_metadata_table.register_location(
             child_location,
             LocationInfo(base_location, animal_graphql_type, None, 1, 0, False))
@@ -552,15 +522,6 @@ class MatchIrLoweringTests(unittest.TestCase):
         ]
         ir_sanity_checks.sanity_check_ir_blocks_from_frontend(ir_blocks, query_metadata_table)
 
-        location_types = construct_location_types({
-            base_location: 'Animal',
-            child_location: 'Animal',
-            revisited_base_location: 'Animal',
-            twice_revisited_base_location: 'Animal',
-            thrice_revisited_base_location: 'Animal',
-            species_location: 'Species',
-            event_location: 'Event',
-        })
         match_query = convert_to_match_query(ir_blocks)
 
         # The expected final query consists of the three optional traversals.
@@ -589,7 +550,7 @@ class MatchIrLoweringTests(unittest.TestCase):
         ]
         expected_final_query = convert_to_match_query(expected_final_blocks)
 
-        temp_query = ir_lowering_match.lower_backtrack_blocks(match_query, location_types)
+        temp_query = ir_lowering_match.lower_backtrack_blocks(match_query, query_metadata_table)
         final_query = ir_lowering_match.truncate_repeated_single_step_traversals(temp_query)
 
         check_test_data(self, expected_final_query, final_query)
@@ -843,7 +804,6 @@ class MatchIrLoweringTests(unittest.TestCase):
         base_location = Location(('Animal',))
         child_location = base_location.navigate_to_subpath('out_Animal_ParentOf')
         child_fed_at_location = child_location.navigate_to_subpath('out_Animal_FedAt')
-        revisited_base_location = base_location.revisit()
 
         animal_graphql_type = schema.get_type('Animal')
         event_graphql_type = schema.get_type('Event')
@@ -856,8 +816,8 @@ class MatchIrLoweringTests(unittest.TestCase):
         query_metadata_table.register_location(
             child_fed_at_location,
             LocationInfo(child_location, event_graphql_type, None, 1, 0, False))
-        query_metadata_table.register_location(
-            revisited_base_location, base_location_info)
+
+        revisited_base_location = query_metadata_table.revisit_location(base_location)
 
         ir_blocks = [
             QueryRoot({'Animal'}),
