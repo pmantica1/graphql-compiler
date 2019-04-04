@@ -21,6 +21,9 @@ project = 'GraphQL Compiler'
 copyright = '2019, Predrag Gruevski, Pedro Mantica, Jeremy Meulemans, Amartya Shankha Biswas'
 author = 'Predrag Gruevski, Pedro Mantica, Jeremy Meulemans, Amartya Shankha Biswas'
 
+# The full version, including alpha/beta/rc tags
+release = '1.10.0'
+
 
 # -- General configuration ---------------------------------------------------
 
