@@ -29,4 +29,12 @@ For a more detailed overview and getting started guide, please see
    definitions
    directives
 
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Miscellaneous
+
+   expanding_optional_vertex_fields
+
+
 
