@@ -20,3 +20,13 @@ For a more detailed overview and getting started guide, please see
 
 .. _our blog post: https://blog.kensho.com/compiled-graphql-as-a-database-query-language-72e106844282./
 
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Language Specification
+
+   definitions
+   directives
+
+
