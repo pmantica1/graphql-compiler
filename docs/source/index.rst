@@ -38,6 +38,7 @@ For a more detailed overview and getting started guide, please see
 
    expanding_optional_vertex_fields
    type_equivalence_hints
+   performance_penalty
 
 .. toctree::
    :maxdepth: 2
