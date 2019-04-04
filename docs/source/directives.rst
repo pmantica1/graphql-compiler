@@ -52,4 +52,38 @@ the :code:`@optional` does not apply, and that value is then checked against the
 coercion. These subsequent operations may then cause the result set to be discarded if it does
 not match.s
 
+@output
+-------
 
+Denotes that the value of a property field should be included in the output.
+Its :code:`out_name` argument specifies the name of the column in which the
+output value should be returned.
+
+Example Use
+-----------
+
+.. code-block::
+
+    {
+        Animal {
+            name @output(out_name: "animal_name")
+        }
+    }
+
+
+This query returns the name of each :code:`Animal` in the graph, in a column named :code:`animal_name`.
+
+Constraints and Rules
+---------------------
+
+- :code:`@output` can only be applied to property fields.
+- The value provided for :code:`out_name` may only consist of upper or lower case letters
+  (:code:`A-Z`, :code:`a-z`), or underscores (:code:`_`).
+- The value provided for :code:`out_name` cannot be prefixed with :code:`___` (three underscores)
+  This namespace is reserved for compiler internal use.
+- For any given query, all :code:`out_name` values must be unique. In other words, output columns must
+  have unique names.
+
+If the property field marked :code:`@output` exists within a scope marked :code:`@optional`, result sets that
+are unable to assign a value to the optional scope return the value :code:`null` as the output
+of that property field.
