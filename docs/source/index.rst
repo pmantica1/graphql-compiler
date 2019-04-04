@@ -26,6 +26,7 @@ For a more detailed overview and getting started guide, please see
    :hidden:
    :caption: Language Specification
 
+   graphql_schema
    definitions
    directives
    filtering_operations
