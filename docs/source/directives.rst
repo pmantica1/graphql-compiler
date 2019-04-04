@@ -321,8 +321,8 @@ Constraints and Rules
   marked :code:`@optional`, the emitted code for the :code:`@filter` checks if the :code:`@optional` field was
   assigned a value. If no value was assigned to the :code:`@optional` field, comparisons against the
   tagged parameter from within that field return :code:`True`.
-  - For example, assuming :code:`%from_optional` originates from an :code:`@optional` scope, when no value is
-    assigned to the :code:`@optional` field:
+  - For example, assuming :code:`%from_optional` originates from an :code:`@optional` scope, when
+    no value is assigned to the :code:`@optional` field:
     - using :code:`@filter(op_name: "=", value: ["%from_optional"])` is equivalent to not
       having the filter at all;
     - using :code:`@filter(op_name: "between", value: ["$lower", "%from_optional"])` is equivalent to

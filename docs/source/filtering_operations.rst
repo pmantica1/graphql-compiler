@@ -135,6 +135,7 @@ has_substring
 Example Use
 ***********
 
+.. code-block::
 
     {
         Animal {
@@ -151,9 +152,6 @@ Constraints and Rules
 *********************
 
 Must be on a property field of string type.
-
-contains
---------
 
 
 Example Use
