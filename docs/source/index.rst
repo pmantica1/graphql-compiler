@@ -29,6 +29,7 @@ For a more detailed overview and getting started guide, please see
    definitions
    directives
    filtering_operations
+   other
 
 .. toctree::
    :maxdepth: 2
