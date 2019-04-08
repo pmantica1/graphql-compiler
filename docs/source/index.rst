@@ -20,14 +20,13 @@ For a more detailed overview and getting started guide, please see
 
 .. _our blog post: https://blog.kensho.com/compiled-graphql-as-a-database-query-language-72e106844282./
 
-Features
---------
+Databases and Query Languages
+-----------------------------
 
-* **Databases and Query Languages:** We currently support a single database, OrientDB version 2.2.28+, and two query languages that OrientDB supports: the OrientDB dialect of gremlin, and OrientDB's own custom SQL-like query language that we refer to as MATCH, after the name of its graph traversal operator. With OrientDB, MATCH should be the preferred choice for most users, since it tends to run faster than gremlin, and has other desirable properties. See the Execution model section for more details.
-  Support for relational databases including PostgreSQL, MySQL, SQLite,
-  and Microsoft SQL Server is a work in progress. A subset of compiler features are available for
-  these databases. See the :doc:`sql` section for more details.
-* **GraphQL Language Features:**  We prioritized and implemented a subset of all functionality supported by the GraphQL language. We hope to add more functionality over time.
+We currently support a single database, OrientDB version 2.2.28+, and two query languages that OrientDB supports: the OrientDB dialect of gremlin, and OrientDB's own custom SQL-like query language that we refer to as MATCH, after the name of its graph traversal operator. With OrientDB, MATCH should be the preferred choice for most users, since it tends to run faster than gremlin, and has other desirable properties. See the Execution model section for more details.
+Support for relational databases including PostgreSQL, MySQL, SQLite,
+and Microsoft SQL Server is a work in progress. A subset of compiler features are available for
+these databases. See the :doc:`sql` section for more details.
 
 
 .. toctree::

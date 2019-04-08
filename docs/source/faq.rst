@@ -34,3 +34,8 @@ error messages you may have seen, which database you're using, and what query yo
 Please reach out to us at
 `graphql-compiler-maintainer@kensho.com <mailto:graphql-compiler-maintainer@kensho.com>`_
 so we can triage the issue and take appropriate action.
+
+**Q: Do you support all of GraphQL's features?**
+
+We prioritized and implemented a subset of all functionality supported by the GraphQL language. We hope to add more functionality over time.
+
