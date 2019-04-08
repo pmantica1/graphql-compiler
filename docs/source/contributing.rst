@@ -4,6 +4,9 @@ Contributing Guide
 
 Thank you for taking the time to contribute to this project!
 
+Getting Started
+---------------
+
 To get started, make sure that you have ``pipenv``\ , ``docker`` and ``docker-compose`` installed
 on your computer. Additionally, since this is a package that supports both Python 2 and Python 3,
 please make sure you have Python 2.7.15+ and Python 3.6+ installed locally. This project assumes
