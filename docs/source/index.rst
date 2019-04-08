@@ -78,6 +78,6 @@ these databases. See the :doc:`sql` section for more details.
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: License
+   :caption: Licenses
 
    license
