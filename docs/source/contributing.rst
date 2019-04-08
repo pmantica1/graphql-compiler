@@ -54,16 +54,6 @@ a pull request and update the guide to make future development easier.
 A test method or class can be marked as slow to be skipped in this fashion by decorating with the
 ``@pytest.mark.slow`` flag.
 
-Contributor License Agreement
------------------------------
-
-Each contributor is required to agree to our
-`Contributor License Agreement <https://www.clahub.com/agreements/kensho-technologies/graphql-compiler>`_\ ,
-to ensure that their contribution may be safely merged into the project codebase and
-released under the existing code license. This agreement does not change contributors'
-rights to use the contributions for any other purpose -- it is simply used for the protection
-of both the contributors and the project.
-
 Style Guide
 -----------
 
@@ -105,3 +95,14 @@ lockfiles for both Python versions. The easiest way to do so is with the followi
 .. code-block::
 
    ./scripts/make_pipenv_lockfiles.sh
+
+
+Contributor License Agreement
+-----------------------------
+
+Each contributor is required to agree to our
+`Contributor License Agreement <https://www.clahub.com/agreements/kensho-technologies/graphql-compiler>`_\ ,
+to ensure that their contribution may be safely merged into the project codebase and
+released under the existing code license. This agreement does not change contributors'
+rights to use the contributions for any other purpose -- it is simply used for the protection
+of both the contributors and the project.
