@@ -43,9 +43,9 @@ these databases. See the :doc:`sql` section for more details.
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Supported Languages
+   :caption: Supported Targets
 
-   orientdb_example
+   orientdb
    sql
 
 .. toctree::

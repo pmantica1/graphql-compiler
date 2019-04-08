@@ -1,5 +1,14 @@
-Querying OrientDB with GraphQL
-==============================
+OrientDB
+========
+
+Supported Features
+------------------
+
+We currently support all of GraphQL directives and definitions for MATCH, the OrientDB query
+language.
+
+Example
+-------
 
 .. code-block:: python3
 

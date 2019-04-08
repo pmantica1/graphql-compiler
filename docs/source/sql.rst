@@ -1,6 +1,9 @@
 
-SQL
----
+SQL Databases
+=============
+
+Supported Features
+------------------
 
 The following table outlines GraphQL compiler features, and their support (if any) by various
 relational database flavors:
@@ -57,43 +60,8 @@ relational database flavors:
      - No
      - No
 
-
-Configuring SQLAlchemy
-^^^^^^^^^^^^^^^^^^^^^^
-
-Relational databases are supported by compiling to SQLAlchemy core as an intermediate
-language, and then relying on SQLAlchemy's compilation of the dialect specific SQL string to query
-the target database.
-
-For the SQL backend, GraphQL types are assumed to have a SQL table of the same name, and with the
-same properties. For example, a schema type
-
-.. code-block::
-
-   type Animal {
-       name: String
-   }
-
-is expected to correspond to a SQLAlchemy table object of the same name, case insensitive. For this
-schema type this could look like:
-
-.. code-block:: python
-
-   from sqlalchemy import MetaData, Table, Column, String
-   # table for GraphQL type Animal
-   metadata = MetaData()
-   animal_table = Table(
-       'animal', # name of table matches type name from schema
-       metadata,
-       Column('name', String(length=12)), # Animal.name GraphQL field has corresponding 'name' column
-   )
-
-If a table of the schema type name does not exist, an exception will be raised at compile time. See
-`Configuring the SQL Database to Match the GraphQL Schema <#configuring-the-sql-database-to-match-the-graphql-schema>`_
-for a possible option to resolve such naming discrepancies.
-
-End-To-End SQL Example
-^^^^^^^^^^^^^^^^^^^^^^
+Example
+-------
 
 An end-to-end example including relevant GraphQL schema and SQLAlchemy engine preparation follows.
 
@@ -165,7 +133,44 @@ does not represent best practices for configuring and running SQLAlchemy in a pr
    query = compilation_result.query
    query_results = [dict(result_proxy) for result_proxy in engine.execute(query)]
 
-Configuring the SQL Database to Match the GraphQL Schema
+Configuration
+-------------
+
+Configuring SQLAlchemy
+^^^^^^^^^^^^^^^^^^^^^^
+
+Relational databases are supported by compiling to SQLAlchemy core as an intermediate
+language, and then relying on SQLAlchemy's compilation of the dialect specific SQL string to query
+the target database.
+
+For the SQL backend, GraphQL types are assumed to have a SQL table of the same name, and with the
+same properties. For example, a schema type
+
+.. code-block::
+
+   type Animal {
+       name: String
+   }
+
+is expected to correspond to a SQLAlchemy table object of the same name, case insensitive. For this
+schema type this could look like:
+
+.. code-block:: python
+
+   from sqlalchemy import MetaData, Table, Column, String
+   # table for GraphQL type Animal
+   metadata = MetaData()
+   animal_table = Table(
+       'animal', # name of table matches type name from schema
+       metadata,
+       Column('name', String(length=12)), # Animal.name GraphQL field has corresponding 'name' column
+   )
+
+If a table of the schema type name does not exist, an exception will be raised at compile time. See
+`Configuring the SQL Database to Match the GraphQL Schema <#configuring-the-sql-database-to-match-the-graphql-schema>`_
+for a possible option to resolve such naming discrepancies.
+
+Configuring the SQL Database to match the GraphQL Schema
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For simplicity, the SQL backend expects an exact match between SQLAlchemy Tables and GraphQL types,
